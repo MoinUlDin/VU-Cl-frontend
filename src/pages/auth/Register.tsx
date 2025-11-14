@@ -1,6 +1,6 @@
 // src/pages/auth/Register.tsx
 import React, { useState } from "react";
-import { UserPlus, Camera } from "lucide-react";
+import { UserPlus, Camera, Eye, EyeOff } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthServices from "../../services/AuthServices";
 import toast from "react-hot-toast";
@@ -35,6 +35,7 @@ export default function Register() {
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [showPass, setShowPass] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const onChange = (
@@ -173,16 +174,24 @@ export default function Register() {
               <label htmlFor="password" className="text-sm font-medium">
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={onChange}
-                required
-                className="p-2 border rounded-md"
-              />
+              <div className="relative flex overflow-hidden">
+                <input
+                  id="password"
+                  type={showPass ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  value={form.password}
+                  onChange={onChange}
+                  required
+                  className="p-2 border rounded-md flex-1"
+                />
+                <span
+                  onClick={() => setShowPass((p) => !p)}
+                  className="absolute flex items-center justify-center right-0 top-0 px-3 h-full hover:cursor-pointer bg-slate-100"
+                >
+                  {!showPass ? <Eye size={18} /> : <EyeOff size={18} />}
+                </span>
+              </div>
             </div>
 
             <div className="flex flex-col">

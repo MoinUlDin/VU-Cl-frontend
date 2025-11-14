@@ -3,6 +3,7 @@ import { lazy } from "react";
 import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import SidebarLayout from "./layouts/SidebarLayout";
 import { Toaster } from "react-hot-toast";
+import Unauthorized from "./pages/Unauthorized";
 
 const RegisterPage = lazy(() => import("./pages/auth/Register"));
 const AdminDashboard = lazy(() => import("./pages/Dashboards/AdminDashboard"));
@@ -12,7 +13,7 @@ const MemberDashboard = lazy(
   () => import("./pages/Dashboards/MemberDashboard")
 );
 const ProfilePage = lazy(() => import("./pages/auth/ProfilePage"));
-
+const ReportsPage = lazy(() => import("./pages/ReportsPage"));
 // manager Related
 const TasksManagement = lazy(() => import("./pages/Tasks/TasksManagement"));
 
@@ -54,7 +55,7 @@ function App() {
             <Route
               path="/tasks-management"
               element={
-                <RoleProtectedRoute allowedRoles={["Manager"]}>
+                <RoleProtectedRoute allowedRoles={["Manager", "Admin"]}>
                   <SidebarLayout>
                     <TasksManagement />
                   </SidebarLayout>
@@ -97,6 +98,22 @@ function App() {
               element={
                 <SidebarLayout>
                   <ProfilePage />
+                </SidebarLayout>
+              }
+            />
+            <Route
+              path="/reports"
+              element={
+                <SidebarLayout>
+                  <ReportsPage />
+                </SidebarLayout>
+              }
+            />
+            <Route
+              path="/unauthorized"
+              element={
+                <SidebarLayout>
+                  <Unauthorized />
                 </SidebarLayout>
               }
             />

@@ -3,7 +3,9 @@ import api from "./api";
 export default class UserManagerment {
   static async updateProfile(form: any) {
     try {
-      const response = await api.patch(`/tasks/profile/me/`, form);
+      const response = await api.patch(`/tasks/profile/me/`, form, {
+        headers: { "Content-Type": "Multipart/formData" },
+      });
       return response.data;
     } catch (error: any) {
       console.log("Error Updating profile ", error);

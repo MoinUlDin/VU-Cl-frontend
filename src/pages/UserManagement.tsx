@@ -81,8 +81,10 @@ export default function UserManagement() {
         </span>
       )}
 
-      <h1 className="text-2xl font-bold">User Management</h1>
-      <p className="text-gray-600 mb-4">Manage pending user registrations</p>
+      <h1 className="text-xl sm:text-2xl font-bold">User Management</h1>
+      <p className="text-gray-600 mb-4 text-xs sm:text-sm">
+        Manage pending user registrations
+      </p>
 
       {/* Tabs */}
       <div className="flex justify-end gap-2 mb-2">
@@ -92,7 +94,7 @@ export default function UserManagement() {
           }}
           className={`${
             tabs === 1 ? "bg-blue-400 " : "border border-gray-500"
-          } px-2 py-1 rounded font-semibold`}
+          } px-2 py-1 rounded font-semibold text-xs sm:text-sm whitespace-nowrap`}
         >
           Pending Users
         </button>
@@ -102,7 +104,7 @@ export default function UserManagement() {
           }}
           className={`${
             tabs === 2 ? "bg-blue-400 " : "border border-gray-500"
-          } px-2 py-1 rounded font-semibold`}
+          } px-2 py-1 rounded font-semibold text-xs sm:text-sm whitespace-nowrap`}
         >
           Active Users
         </button>
@@ -116,11 +118,11 @@ export default function UserManagement() {
               No pending registrations 🎉
             </p>
           ) : (
-            <div className="space-y-4">
+            <div className="flex">
               {pending.map((u) => (
                 <div
                   key={u.id}
-                  className="border rounded-lg p-4 flex justify-between items-center"
+                  className="border rounded-lg p-4 flex flex-col sm:flex-row flex-1 justify-between items-start sm:items-center"
                 >
                   <div>
                     <p className="font-medium">
@@ -131,7 +133,7 @@ export default function UserManagement() {
                       Employee #: {u.employee_number}
                     </p>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex mt-3 sm:mt-0 gap-2 self-end sm:self-center">
                     <button
                       onClick={() => handleDecision(u.id, "approve")}
                       className="px-2 py-1 flex items-center min-w-[78px] text-[12px] gap-2 bg-green-500 text-white rounded-lg"
@@ -166,7 +168,7 @@ export default function UserManagement() {
               {active.map((u) => (
                 <div
                   key={u.id}
-                  className="border rounded-lg p-4 flex justify-between items-center bg-white"
+                  className="border rounded-lg p-4 flex flex-col sm:flex-row justify-between items-center bg-white"
                 >
                   <div>
                     <p className="font-medium">
@@ -180,7 +182,7 @@ export default function UserManagement() {
                       Employee #: {u.employee_number}
                     </p>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex self-end sm:self-center mt-4 sm:mt-0 gap-2">
                     <button
                       onClick={() => handleDecision(u.id, "reject")}
                       className="px-2 py-1 flex items-center min-w-[78px] text-[12px] gap-2 bg-red-500 text-white rounded-lg"

@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   ClipboardList,
-  Settings,
   FileText,
   LogOut,
   Users,
@@ -50,7 +49,7 @@ const LINKS: SidebarLink[] = [
     to: "/tasks-management",
     label: "Tasks",
     Icon: ClipboardList,
-    allowedRoles: ["Manager"],
+    allowedRoles: ["Admin", "Manager"],
   },
   {
     to: "/my-tasks",
@@ -63,12 +62,6 @@ const LINKS: SidebarLink[] = [
     label: "Reports",
     Icon: FileText,
     allowedRoles: ["Admin", "Manager"],
-  },
-  {
-    to: "/settings",
-    label: "Settings",
-    Icon: Settings,
-    allowedRoles: ["Admin"],
   },
 ];
 
@@ -208,7 +201,7 @@ export default function Sidebar(): React.ReactElement | null {
      - clicking menu opens full overlay
      ---------------------- */
   const MobileSlim = (
-    <div className="md:hidden left-2 top-4 z-40 flex flex-col items-center gap-2 bg-slate-800">
+    <div className="md:hidden fixed left-2 top-0 h-full z-40 flex flex-col items-center gap-2 bg-slate-800">
       {/* menu toggle */}
       <button
         onClick={() => setMobileOpen(true)}
@@ -240,7 +233,7 @@ export default function Sidebar(): React.ReactElement | null {
       <button
         onClick={handleLogout}
         aria-label="Logout"
-        className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-red-400 hover:bg-white/10 mt-2"
+        className="w-12 h-12 fixed bottom-16 bg-white/5 rounded-lg flex items-center justify-center text-red-400 hover:bg-white/10 mt-2"
         type="button"
       >
         <LogOut className="w-5 h-5" />

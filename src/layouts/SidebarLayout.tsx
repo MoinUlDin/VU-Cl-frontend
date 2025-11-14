@@ -100,7 +100,7 @@ export default function SidebarLayout({ children }: Props) {
         toast.success("Notifications Deleted Successfully");
         fetchNotifications();
       })
-      .catch((e) => {
+      .catch(() => {
         toast.error("Error Deleting Notification");
       });
   };
@@ -190,7 +190,7 @@ export default function SidebarLayout({ children }: Props) {
       <Sidebar />
 
       {/* ================ Main Content (right) ============= */}
-      <div className="w-full">
+      <div className="w-full ml-[56px] md:ml-0">
         {/* Header */}
         <div className="flex border w-full h-18 justify-between items-center px-6 py-3 bg-white">
           <div>
@@ -392,7 +392,7 @@ export default function SidebarLayout({ children }: Props) {
           </div>
         </div>
 
-        <main className="flex-1 p-2 sm:p-4 lg:p-6">{children}</main>
+        <main className="flex-1">{children}</main>
       </div>
     </div>
   );

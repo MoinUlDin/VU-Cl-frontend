@@ -28,4 +28,13 @@ export default class NotificationServices {
       throw error.response?.data || error.message;
     }
   }
+  static async DeleteNotification(id: string) {
+    try {
+      const response = await api.delete(`/tasks/notifications/${id}/`);
+      return response.data;
+    } catch (error: any) {
+      console.log("Error Fetching Active Users ", error);
+      throw error.response?.data || error.message;
+    }
+  }
 }

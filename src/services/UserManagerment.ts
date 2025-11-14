@@ -1,6 +1,24 @@
 import api from "./api";
 
 export default class UserManagerment {
+  static async updateProfile(form: any) {
+    try {
+      const response = await api.patch(`/tasks/profile/me/`, form);
+      return response.data;
+    } catch (error: any) {
+      console.log("Error Updating profile ", error);
+      throw error.response?.data || error.message;
+    }
+  }
+  static async updatePassword(payload: any) {
+    try {
+      const response = await api.post(`/tasks/auth/change-password/`, payload);
+      return response.data;
+    } catch (error: any) {
+      console.log("Error Updating profile ", error);
+      throw error.response?.data || error.message;
+    }
+  }
   static async FetchactiveUsers() {
     try {
       const response = await api.get(`/tasks/auth/active-users/`);

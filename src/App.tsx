@@ -11,6 +11,7 @@ const UserManagement = lazy(() => import("./pages/UserManagement"));
 const MemberDashboard = lazy(
   () => import("./pages/Dashboards/MemberDashboard")
 );
+const ProfilePage = lazy(() => import("./pages/auth/ProfilePage"));
 
 // manager Related
 const TasksManagement = lazy(() => import("./pages/Tasks/TasksManagement"));
@@ -89,6 +90,14 @@ function App() {
                     <MemberTaskPage />
                   </SidebarLayout>
                 </RoleProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-profile"
+              element={
+                <SidebarLayout>
+                  <ProfilePage />
+                </SidebarLayout>
               }
             />
             <Route

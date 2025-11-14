@@ -6,6 +6,7 @@ import NotificationServices from "../services/NotificationServices";
 import type { NotificationsType } from "../Types/Notifications";
 import { loggedInUser } from "../utils/helpers";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 type Props = {
   children: React.ReactNode;
@@ -92,6 +93,17 @@ export default function SidebarLayout({ children }: Props) {
   }, [menuOpen]);
 
   // mark a single notification as read (optimistic update)
+  const handleDelete = (id: string) => {
+    if (!id) return toast.error("No id provided");
+    NotificationServices.DeleteNotification(id)
+      .then(() => {
+        toast.success("Notifications Deleted Successfully");
+        fetchNotifications();
+      })
+      .catch((e) => {
+        toast.error("Error Deleting Notification");
+      });
+  };
   async function handleMarkRead(id: string) {
     // optimistic UI
     setNoti((prev) =>
@@ -215,7 +227,7 @@ export default function SidebarLayout({ children }: Props) {
                 )}
               </button>
 
-              {/* dropdown */}
+              {/* Dropdown Notifications*/}
               {open && (
                 <div
                   ref={dropdownRef}
@@ -313,7 +325,13 @@ export default function SidebarLayout({ children }: Props) {
                                     Mark read
                                   </button>
                                 )}
-
+                                <button
+                                  onClick={() => handleDelete(String(n.id))}
+                                  className="text-xs px-2 py-1 bg-sky-50 text-sky-700 rounded hover:bg-sky-100"
+                                  type="button"
+                                >
+                                  Delete
+                                </button>
                                 <div className="text-xs text-slate-400">
                                   Type: {n.type}
                                 </div>
@@ -353,7 +371,10 @@ export default function SidebarLayout({ children }: Props) {
                   ref={menuRef}
                 >
                   <ul className="space-y-1">
-                    <li className="px-4 py-3 hover:bg-slate-700 hover:text-white font-semibold flex items-center gap-1">
+                    <li
+                      onClick={() => navigate("/user-profile")}
+                      className="px-4 py-3 hover:bg-slate-700 hover:text-white font-semibold flex items-center gap-1"
+                    >
                       <User size={14} />
                       Profile
                     </li>

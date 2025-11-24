@@ -10,6 +10,15 @@ export default class TaskServices {
       throw error.response?.data || error.message;
     }
   }
+  static async DeleteTask(id: string) {
+    try {
+      const response = await api.get(`/tasks/tasks/${id}/`);
+      return response.data;
+    } catch (error: any) {
+      console.log("Error Fetching Tasks ", error);
+      throw error.response?.data || error.message;
+    }
+  }
   static async createTask(payload: any) {
     try {
       const response = await api.post(`/tasks/tasks/`, payload);

@@ -20,6 +20,7 @@ import {
   priorityBadge,
   statusColor,
 } from "../../utils/helpers";
+import toast from "react-hot-toast";
 
 export default function TasksManagement(): JSX.Element {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -80,6 +81,23 @@ export default function TasksManagement(): JSX.Element {
   const onAssign = (data: Task) => {
     setSelectedTask(data);
     setOpenAssign(true);
+  };
+  const DeleteTask = (data: Task) => {
+    const id = data.id;
+    if (id) {
+      const res = window.confirm("Are you use You want to delelte this?");
+      if (res) {
+        TaskServices.DeleteTask(id)
+          .then(() => {
+            toast.success("task deleted successfully.");
+            fetchTasks();
+          })
+          .catch((e) => {
+            console.log("Deleting Task error", error);
+            toast.error("Error Deleting task");
+          });
+      }
+    }
   };
   const onComment = (data: Task) => {
     // placeholder: currently does nothing (component will be added later)
@@ -431,6 +449,7 @@ export default function TasksManagement(): JSX.Element {
                         </button>
 
                         <button
+                          onClick={() => DeleteTask(task)}
                           title="Delete"
                           className="p-0.5 rounded hover:bg-slate-100 text-slate-600 hover:text-red-600"
                           type="button"

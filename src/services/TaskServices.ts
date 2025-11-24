@@ -12,7 +12,7 @@ export default class TaskServices {
   }
   static async DeleteTask(id: string) {
     try {
-      const response = await api.get(`/tasks/tasks/${id}/`);
+      const response = await api.delete(`/tasks/tasks/${id}/`);
       return response.data;
     } catch (error: any) {
       console.log("Error Fetching Tasks ", error);

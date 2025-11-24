@@ -87,8 +87,10 @@ export default function TasksManagement(): JSX.Element {
     if (id) {
       const res = window.confirm("Are you use You want to delelte this?");
       if (res) {
+        console.log("we are here");
         TaskServices.DeleteTask(id)
-          .then(() => {
+          .then((r) => {
+            console.log("Response", r);
             toast.success("task deleted successfully.");
             fetchTasks();
           })

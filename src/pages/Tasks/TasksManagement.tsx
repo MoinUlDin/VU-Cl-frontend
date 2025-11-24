@@ -12,6 +12,8 @@ import TaskServices from "../../services/TaskServices";
 import type { Task } from "../../Types/TaskTypes";
 import CreateUpdateTask from "../../components/Popups/CreateUpdateTask";
 import AssignTaskModal from "../../components/Popups/AssignTaskModal";
+import CommentPopup from "../../components/Popups/CommentPopup";
+
 import {
   formatDate,
   getInitials,
@@ -28,6 +30,7 @@ export default function TasksManagement(): JSX.Element {
   const [openAssign, setOpenAssign] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [initialData, setInitialData] = useState<Task | null>(null);
+  const [openComment, setOpenComment] = useState<boolean>(false);
 
   // filters / search
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -81,6 +84,7 @@ export default function TasksManagement(): JSX.Element {
   const onComment = (data: Task) => {
     // placeholder: currently does nothing (component will be added later)
     setSelectedTask(data);
+    setOpenComment(true);
   };
 
   // helper to determine overdue
@@ -582,6 +586,12 @@ export default function TasksManagement(): JSX.Element {
             setOpenAssign(false);
             setSelectedTask(null);
           }}
+        />
+      )}
+      {openComment && selectedTask && (
+        <CommentPopup
+          task={selectedTask}
+          onClose={() => setOpenComment(false)}
         />
       )}
     </div>

@@ -1,9 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import TaskServices from "../../services/TaskServices";
 import toast from "react-hot-toast";
-import { Activity, CheckCircle } from "lucide-react";
-import type { membersAssigendtaskType } from "../../Types/TaskTypes";
+import { Activity, CheckCircle, MessageSquare } from "lucide-react";
+import type {
+  membersAssigendtaskType,
+  taskShortType,
+} from "../../Types/TaskTypes";
 import ConfirmationModal from "../../components/Popups/ConfirmationModal";
+import CommentPopup from "../../components/Popups/CommentPopup";
 
 /* ---------- Utilities ---------- */
 function formatDate(dateStr?: string | null) {
@@ -25,6 +29,7 @@ function isOverdue(task: any) {
 function TaskCard({
   task,
   onMarkComplete,
+  onComment,
   onStart,
   saving,
 }: {
@@ -32,6 +37,7 @@ function TaskCard({
   onMarkComplete: (id: string) => Promise<void>;
   onStart: (id: string) => Promise<void>;
   saving: boolean | { start?: boolean; complete?: boolean };
+  onComment: (task: taskShortType) => void;
 }) {
   const [openConfirmation, setOpenConfirmation] = useState<boolean>(false);
 
@@ -66,7 +72,7 @@ function TaskCard({
         <div className="flex justify-between items-start gap-3">
           <div className="min-w-0">
             <h3
-              className={`text-lg font-semibold text-slate-800 truncate ${
+              className={`text-sm sm:text-lg font-semibold text-slate-800 truncate ${
                 completed ? "line-through text-slate-400" : ""
               }`}
               title={task.task.title}
@@ -170,6 +176,16 @@ function TaskCard({
             Completed
           </div>
         )}
+        <div>
+          <button
+            onClick={() => onComment(task.task)}
+            title="Comment"
+            className="p-0.5 rounded hover:bg-slate-100 text-slate-600"
+            type="button"
+          >
+            <MessageSquare size={16} />
+          </button>
+        </div>
       </div>
 
       {openConfirmation && (
@@ -187,6 +203,8 @@ function TaskCard({
 export default function MemberTaskPage() {
   const [tasks, setTasks] = useState<membersAssigendtaskType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [openComment, setOpenComment] = useState<boolean>(false);
+  const [selectedTask, setSelectedTask] = useState<taskShortType | null>(null);
   const [filter, setFilter] = useState<
     "all" | "completed" | "in_progress" | "pending" | "overdue"
   >("all");
@@ -201,6 +219,12 @@ export default function MemberTaskPage() {
   useEffect(() => {
     loadTasks();
   }, []);
+
+  const onComment = (data: taskShortType) => {
+    // placeholder: currently does nothing (component will be added later)
+    setSelectedTask(data);
+    setOpenComment(true);
+  };
 
   function loadTasks() {
     setLoading(true);
@@ -381,12 +405,20 @@ export default function MemberTaskPage() {
                 task={task}
                 onMarkComplete={handleMarkComplete}
                 onStart={handleStartTask}
+                onComment={onComment}
                 saving={savingMap[task.task.id] || {}}
               />
             ))
           )}
         </div>
       </div>
+
+      {openComment && selectedTask && (
+        <CommentPopup
+          task={selectedTask}
+          onClose={() => setOpenComment(false)}
+        />
+      )}
     </div>
   );
 }

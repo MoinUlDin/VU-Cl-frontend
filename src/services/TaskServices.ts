@@ -46,4 +46,22 @@ export default class TaskServices {
       throw error.response?.data || error.message;
     }
   }
+  static async PostComment(payload: any) {
+    try {
+      const response = await api.post(`/tasks/comments/`, payload);
+      return response.data;
+    } catch (error: any) {
+      console.log("Error Fetching Tasks ", error);
+      throw error.response?.data || error.message;
+    }
+  }
+  static async FetchComments(id: string) {
+    try {
+      const response = await api.get(`/tasks/${id}/comments/`);
+      return response.data;
+    } catch (error: any) {
+      console.log("Error Fetching Tasks ", error);
+      throw error.response?.data || error.message;
+    }
+  }
 }
